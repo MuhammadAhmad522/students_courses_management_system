@@ -1,11 +1,24 @@
 class Enrollment
 
-    @@id_count
+    @@id_count = 0
 
-  def initialize(student, course)
+  def initialize(student_id, course_id)
     @id = generate_id
-    @student_id = student.getID
-    @course_id = course.getID
+    @student_id = student_id
+    @course_id = course_id
+  end
+
+  def getID
+    return @id
+    
+  end
+
+  def get_student_id
+    return @student_id
+  end
+
+  def get_course_id
+    return @course_id
   end
 
   private

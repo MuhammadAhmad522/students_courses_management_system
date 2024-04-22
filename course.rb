@@ -6,7 +6,7 @@ class Course
 
   def initialize(name)
     @id = generate_id
-    setName=(name)
+    @name = name
   end
 
   def getID
