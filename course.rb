@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 class Course
-  
-    @name = ""
-  
-    @@id_count = 0
+  @name = ''
+
+  @@id_count = 0
 
   def initialize(name)
     @id = generate_id
@@ -10,19 +11,20 @@ class Course
   end
 
   def getID
-    return @id
+    @id
   end
 
   def getName
-    return @name
+    @name
   end
 
   def setName=(name)
-    return @name = name    
+    @name = name
   end
 
   private
-    def generate_id
-      @@id_count += 1
-    end  
+
+  def generate_id
+    @@id_count += 1
+  end
 end

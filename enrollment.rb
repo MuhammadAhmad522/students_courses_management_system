@@ -1,6 +1,7 @@
-class Enrollment
+# frozen_string_literal: true
 
-    @@id_count = 0
+class Enrollment
+  @@id_count = 0
 
   def initialize(student_id, course_id)
     @id = generate_id
@@ -9,20 +10,20 @@ class Enrollment
   end
 
   def getID
-    return @id
-    
+    @id
   end
 
   def get_student_id
-    return @student_id
+    @student_id
   end
 
   def get_course_id
-    return @course_id
+    @course_id
   end
 
   private
+
   def generate_id
-    return @@id_count += 1
+    @@id_count += 1
   end
 end

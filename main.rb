@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'course'
 require_relative 'enrollment'
 require_relative 'student_management'
@@ -9,12 +11,12 @@ students = []
 enrollments = []
 
 loop do
-  puts "Main Menu"
-  puts "1. Course Management"
-  puts "2. Student Management"
-  puts "3. Course Enrollment"
-  puts "4. Exit"
-  print "Enter your choice: "
+  puts 'Main Menu'
+  puts '1. Course Management'
+  puts '2. Student Management'
+  puts '3. Course Enrollment'
+  puts '4. Exit'
+  print 'Enter your choice: '
 
   user_input = gets.chomp.to_i
   puts "\n"
@@ -29,6 +31,6 @@ loop do
   when 4
     break
   else
-    puts "Invalid option. Please try again."
+    puts 'Invalid option. Please try again.'
   end
 end

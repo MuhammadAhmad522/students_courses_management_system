@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 class Student
-  
-    @first_name = ""
-    @last_name = ""
-  
-    @@id_count = 0 #Class variable to store id count
+  @first_name = ''
+  @last_name = ''
+
+  @@id_count = 0 # Class variable to store id count
 
   def initialize(first_name, last_name)
     @id = generate_id
@@ -12,23 +13,24 @@ class Student
   end
 
   def getID
-    return @id
+    @id
   end
 
   def getName
-    return "#{@first_name} #{@last_name}"
+    "#{@first_name} #{@last_name}"
   end
 
   def setFirstName=(first_name)
-    @first_name = first_name    
+    @first_name = first_name
   end
 
   def setLastName=(last_name)
-    @last_name = last_name    
+    @last_name = last_name
   end
-  
+
   private
-    def generate_id
-      @@id_count += 1
-    end  
+
+  def generate_id
+    @@id_count += 1
+  end
 end
