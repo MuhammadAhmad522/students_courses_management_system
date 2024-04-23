@@ -67,9 +67,9 @@ class StudentManagement
   end
 
   def edit_student(students)
-    print 'Enter student name to edit: '
-    name = gets.chomp
-    student = students.find { |student| student.getName == name }
+    print 'Enter student id to edit: '
+    id = gets.chomp.to_i
+    student = students.find { |student| student.getID == id }
     if student
       print 'Enter new First name: '
       student.setFirstName = gets.chomp
