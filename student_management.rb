@@ -47,10 +47,13 @@ class StudentManagement
 
     else
       puts "Total Students: #{students.length}"
-      puts "List of students: \n"
+      puts "List of students: "
+      puts "\n"
       students.each do |student|
         puts "Name: #{student.getName}"
         puts "ID: #{student.getID}"
+        puts ""
+
       end
     end
   end

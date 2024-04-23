@@ -28,6 +28,10 @@ class Student
     @last_name = last_name
   end
 
+  def to_a
+    [@id, @first_name, @last_name]
+  end
+
   private
 
   def generate_id

@@ -21,6 +21,10 @@ class Enrollment
     @course_id
   end
 
+  def to_a
+    [@id, @student_id, @course_id]
+  end
+
   private
 
   def generate_id

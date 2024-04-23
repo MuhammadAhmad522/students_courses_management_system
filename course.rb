@@ -27,4 +27,9 @@ class Course
   def generate_id
     @@id_count += 1
   end
+
+  def to_a
+    [@id, @name]
+  end
+
 end
