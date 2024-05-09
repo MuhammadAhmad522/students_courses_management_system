@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'course'
-require_relative 'enrollment'
 require_relative 'student_management'
 require_relative 'course_management'
 require_relative 'enrollment_management'
 
-courses = []
-students = []
-enrollments = []
+
+course_management = CourseManagement.new
+student_management = StudentManagement.new
+enrollment_management = EnrollmentManagement.new(student_management, course_management)
 
 loop do
   puts 'Main Menu'
@@ -23,11 +22,11 @@ loop do
 
   case user_input
   when 1
-    CourseManagement.new(courses).manage
+    course_management.manage
   when 2
-    StudentManagement.new(students).manage
+    student_management.manage
   when 3
-    EnrollmentManagement.new(students, courses, enrollments).manage
+    enrollment_management.manage
   when 4
     break
   else

@@ -3,8 +3,8 @@
 require_relative 'student'
 
 class StudentManagement
-  def initialize(students)
-    @students = students
+  def initialize
+    @students = load_students
   end
 
   def manage
@@ -20,17 +20,18 @@ class StudentManagement
       print 'Enter choice: '
       choice = gets.chomp.to_i
       puts "\n"
+
       case choice
       when 1
-        list_students(@students)
+        list_students
       when 2
         add_student
       when 3
-        edit_student(@students)
+        edit_student
       when 4
-        delete_student(@students)
+        delete_student
       when 5
-        save_students(@students)
+        save_students
       when 6
         break
       else
@@ -39,24 +40,23 @@ class StudentManagement
     end
   end
 
-  def list_students(students)
-    if students.empty?
+  def list_students
+    if @students.empty?
       puts 'No students found'
       puts "\n"
-      nil
-
     else
-      puts "Total Students: #{students.length}"
+      puts "Total Students: #{@students.length}"
       puts "List of students: "
       puts "\n"
-      students.each do |student|
-        puts "Name: #{student.getName}"
-        puts "ID: #{student.getID}"
+      @students.each do |student|
+        puts "Name: #{student.name}"
+        puts "ID: #{student.id}"
         puts ""
-
       end
     end
   end
+
+
 
   def add_student
     print 'Enter student First name: '
@@ -64,36 +64,65 @@ class StudentManagement
     print 'Enter student Last name: '
     lname = gets.chomp
     @students << Student.new(fname, lname)
+    puts "\nStudent Added Successfully"
   end
 
-  def edit_student(students)
+  def edit_student
     print 'Enter student id to edit: '
     id = gets.chomp.to_i
-    student = students.find { |student| student.getID == id }
+    student = @students.find { |student| student.id == id }
     if student
       print 'Enter new First name: '
-      student.setFirstName = gets.chomp
+      student.first_name = gets.chomp
       print 'Enter new Last name: '
-      student.setLastName = gets.chomp
-
+      student.last_name = gets.chomp
+      puts "\nStudents Updated Successfully...!"
     else
       puts 'Student not found'
     end
   end
 
-  def delete_student(students)
-    print 'Enter student name to delete: '
-    name = gets.chomp
-    student = students.find { |student| student.getName == name }
+  def delete_student
+    print 'Enter student id to delete: '
+    id = gets.chomp.to_i
+    student = @students.find { |student| student.id == id }
     if student
-      students.delete(student)
-      puts 'Students deleted'
+      @students.delete(student)
+      puts "Student Record deleted: #{student.name}"
     else
       puts 'Student not found'
     end
   end
 
-  def save_students(students)
-    # to be implemented
+  def save_students
+    CSV.open('students.csv', 'w') do |csv|
+      @students.each do |student|
+        csv << [ student.id, student.first_name, student.last_name]
+      end
+    end
+  end
+
+  def load_students
+    students = []
+    if File.exist?('students.csv')
+      CSV.foreach('students.csv') do |row|
+        id = row[0].to_i
+        fname = row[1]
+        lname = row[2]
+        students << Student.new(fname, lname, id)
+      end
+    else
+      File.open('students.csv', 'w')
+    end
+    return students
+  end
+
+  def all_students
+    @students
+  end
+
+
+  def find(id)
+    @students.detect { |std| std.id == id }
   end
 end

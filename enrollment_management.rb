@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 require_relative 'enrollment'
+require_relative 'student_management'
+require_relative 'course_management'
 
 class EnrollmentManagement
-  def initialize(students, courses, enrollments)
-    @students = students
-    @courses = courses
-    @enrollments = enrollments
+  def initialize (students, courses)
+    @students_mgmt = students
+    @courses_mgmt = courses
+    @enrollments = load_enrollments
+    p @students_mgmt
+    p @courses_mgmt
+    p @enrollments
   end
 
   def manage
@@ -42,40 +47,41 @@ class EnrollmentManagement
 end
 
 def show_courses_enrolled_by_student
+  p @students_mgmt
+  p @courses_mgmt
+  p @enrollments
+  # get student id
   print 'Enter student ID: '
   student_id = gets.chomp.to_i
-  enrollments = @enrollments.select { |enrollment| enrollment.get_student_id == student_id }
+  # check enrollments against that student id
+  enrollments = @enrollments.select { |enrollment| enrollment.student_id == student_id }
   if enrollments.empty?
     puts 'No courses found'
   else
-    puts 'Courses enrolled by '
+    student = @students_mgmt.find(student_id) # if enrollment found against a student, save that student against the student variable
+    puts "Courses enrolled by #{student.name}:" # puts student name
     enrollments.each do |enrollment|
-      # show student name
-      @students.find do |student|
-        print "#{student.getName}: " if student.getID == enrollment.get_student_id
-      end
-
-      course = @courses.find { |course| course.getID == enrollment.get_course_id }
-      puts course.getName
+      puts @courses_mgmt.find(enrollment.course_id).name
     end
   end
 end
 
+
 def show_students_enrolled_in_course
   print 'Enter course ID: '
   course_id = gets.chomp.to_i
-  enrollments = @enrollments.select { |enrollment| enrollment.get_course_id == course_id }
+  enrollments = @enrollments.each { |enrollment| enrollment.course_id == course_id }
   if enrollments.empty?
     puts 'No students found'
   else
     print 'Students enrolled in '
     enrollments.each do |enrollment|
       # show course name
-      @courses.find do |course|
-        print "#{course.getName}: " if course.getID == enrollment.get_course_id
+      @courses_mgmt.find do |course|
+        print "#{course.name}: " if course.id == enrollment.course_id
       end
-      student = @students.find { |student| student.getID == enrollment.get_student_id }
-      puts student.getName
+      student = @students.find { |student| student.id == enrollment.student_id }
+      puts student.name
     end
   end
 end
@@ -85,9 +91,13 @@ def add_course_enrollment
   student_id = gets.chomp.to_i
   print 'Enter course ID: '
   course_id = gets.chomp.to_i
-  @enrollments << Enrollment.new(student_id, course_id)
-  puts 'Course enrollment added'
-  puts "\n"
+  if enrollment_already_exists(student_id, course_id)
+    puts "Enrollment already exists"
+  else
+    @enrollments << Enrollment.new(student_id, course_id)
+    puts 'Course enrollment added'
+    puts "\n"
+  end
 end
 
 def delete_course_enrollment
@@ -95,9 +105,7 @@ def delete_course_enrollment
   student_id = gets.chomp.to_i
   print 'Enter course ID: '
   course_id = gets.chomp.to_i
-  enrollment = @enrollments.find do |enrollment|
-    enrollment.get_student_id == student_id && enrollment.get_course_id == course_id
-  end
+  enrollment = @enrollments.find { |enrollment| enrollment.student_id == student_id && enrollment.course_id == course_id }
   if enrollment
     @enrollments.delete(enrollment)
     puts 'Course enrollment deleted'
@@ -108,5 +116,35 @@ def delete_course_enrollment
 end
 
 def save_course_enrollments
-  puts 'To be implemented'
+  CSV.open('enrollments.csv', 'w') do |csv|
+    @enrollments.each do |enrollment|
+      csv << [ enrollment.id, enrollment.student_id, enrollment.course_id]
+    end
+  end
+end
+
+
+def load_enrollments
+  enrollments = []
+  if File.exist?('enrollments.csv')
+    CSV.foreach('enrollments.csv') do |row|
+      id = row[0].to_i
+      student_id = row[1].to_i
+      course_id = row[2].to_i
+      enrollments << Enrollment.new(id, student_id, course_id)
+    end
+  else
+    File.open('enrollments.csv', 'w')
+  end
+  return enrollments
+end
+
+def enrollment_already_exists(student_id, course_id)
+  @enrollments.find do |enrollment| 
+    if (enrollment.student_id == student_id && enrollment.course_id == course_id)
+      return true
+    else 
+      return false
+    end
+  end
 end
