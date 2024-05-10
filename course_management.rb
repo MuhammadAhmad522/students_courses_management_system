@@ -85,12 +85,12 @@ class CourseManagement
     print 'Enter course id to delete: '
     id = gets.chomp.to_i
 
-    course = @courses.find { |course| puts(course.id); course.id == id }
+    course = @courses.find { |course| course.id == id }
     if course
       @courses.delete(course)
       puts 'Course deleted successfully...!'
     else
-      puts 'Course not found in the list...!'  
+      puts 'Course not found in the list...!'
     end
   end
 
@@ -118,5 +118,9 @@ class CourseManagement
 
   def all_courses
     @courses
+  end
+
+  def find_course_by_id(id)
+    @courses.detect {|course| course.id == id}
   end
 end

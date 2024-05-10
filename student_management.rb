@@ -121,8 +121,8 @@ class StudentManagement
     @students
   end
 
-
-  def find(id)
-    @students.detect { |std| std.id == id }
+  def find_student_by_id(id)
+    @students.detect { |student| student.id == id }
   end
+
 end
