@@ -1,4 +1,4 @@
-# Students Courses Management System - CLI App
+# Students Courses Management System - CLI App Baddo baddi
 
 This CLI application manages courses, students, and course enrollments for an educational institution. It provides functionalities to manage courses, students, and their enrollments, along with saving data to respective CSV files.
 
