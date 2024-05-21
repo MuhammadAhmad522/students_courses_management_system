@@ -3,26 +3,29 @@
 class Enrollment
   @@id_count = 0
 
-  def initialize(student_id, course_id)
-    @id = generate_id
-    @student_id = student_id
-    @course_id = course_id
+  def initialize(id = nil, student_id, course_id)
+    if id.nil?
+      @id = generate_id
+      @student_id = student_id
+      @course_id = course_id
+    else
+      @id = id
+      @student_id = student_id
+      @course_id = course_id
+      generate_id
+    end
   end
 
-  def getID
+  def id
     @id
   end
 
-  def get_student_id
+  def student_id
     @student_id
   end
 
-  def get_course_id
+  def course_id
     @course_id
-  end
-
-  def to_a
-    [@id, @student_id, @course_id]
   end
 
   private

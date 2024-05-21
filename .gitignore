@@ -32,3 +32,6 @@ database.yml
 
 # Windows
 Thumbs.db
+
+# CSV
+*.csv

@@ -5,20 +5,26 @@ class Course
 
   @@id_count = 0
 
-  def initialize(name)
-    @id = generate_id
-    @name = name
+  def initialize(name, id = nil)
+    if id.nil?
+      @id = generate_id
+      @name = name
+    else
+      @name = name
+      @id = id
+      generate_id
+    end
   end
 
-  def getID
+  def id
     @id
   end
 
-  def getName
+  def name
     @name
   end
 
-  def setName=(name)
+  def name=(name)
     @name = name
   end
 
@@ -26,10 +32,6 @@ class Course
 
   def generate_id
     @@id_count += 1
-  end
-
-  def to_a
-    [@id, @name]
   end
 
 end

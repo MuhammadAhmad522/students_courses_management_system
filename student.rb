@@ -6,30 +6,43 @@ class Student
 
   @@id_count = 0 # Class variable to store id count
 
-  def initialize(first_name, last_name)
-    @id = generate_id
-    @first_name = first_name
-    @last_name = last_name
+  def initialize(first_name, last_name, id = nil)
+    if id.nil?
+      @id = generate_id
+      @first_name = first_name
+      @last_name = last_name
+    else
+      @id = id
+      @first_name = first_name
+      @last_name = last_name
+      generate_id
+    end
+
   end
 
-  def getID
+  def id
     @id
   end
 
-  def getName
+  def name
     "#{@first_name} #{@last_name}"
   end
 
-  def setFirstName=(first_name)
+  def first_name
+    @first_name
+  end
+
+  def last_name
+    @last_name
+  end
+
+
+  def first_name=(first_name)
     @first_name = first_name
   end
 
-  def setLastName=(last_name)
+  def last_name=(last_name)
     @last_name = last_name
-  end
-
-  def to_a
-    [@id, @first_name, @last_name]
   end
 
   private
